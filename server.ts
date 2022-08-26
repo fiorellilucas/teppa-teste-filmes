@@ -13,11 +13,9 @@ import {
   deleteDoc,
   DocumentReference,
   getDoc,
-  DocumentData,
   updateDoc,
 } from "firebase/firestore"
 import "dotenv/config"
-import path from "path"
 import { body, validationResult } from "express-validator"
 import bodyParser, { BodyParser } from "body-parser"
 
@@ -68,36 +66,77 @@ app.get("/filme", async (req: Request, res: Response) => {
   res.json(dadosFilme)
 })
 
-app.post("/adicionar", async (req: Request, res: Response) => {
-  let formData = req.body
+app.post(
+  "/adicionar",
 
-  await setDoc(doc(db, "Filmes", formData.titulo), {
-    titulo: formData.titulo,
-    ano_lancamento: formData.ano_lancamento,
-    diretor: formData.diretor,
-    roteirista: formData.roteirista,
-    distribuidora: formData.distribuidora,
-    elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
-  })
+  body("titulo").isLength({ min: 1, max: 200 }),
+  body("diretor").isLength({ min: 1, max: 200 }),
+  body("ano_lancamento").isLength({ min: 1, max: 200 }),
+  body("roteirista").isLength({ min: 1, max: 200 }),
+  body("distribuidora").isLength({ min: 1, max: 200 }),
+  body("ator1").isLength({ min: 1, max: 200 }),
+  body("ator2").isLength({ min: 1, max: 200 }),
+  body("ator3").isLength({ min: 1, max: 200 }),
 
-  res.end()
-})
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req)
 
-app.post("/alterar", async (req: Request, res: Response) => {
-  const tituloFilme = String(req.query.titulo)
-  const filme = doc(db, "Filmes", tituloFilme)
+    if (errors.isEmpty()) {
+      const tituloFilme = String(req.query.titulo)
+      const filme = doc(db, "Filmes", tituloFilme)
 
-  let formData = req.body
+      let formData = req.body
 
-  await updateDoc(filme, {
-    titulo: formData.titulo,
-    ano_lancamento: formData.ano_lancamento,
-    diretor: formData.diretor,
-    roteirista: formData.roteirista,
-    distribuidora: formData.distribuidora,
-    elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
-  })
-})
+      await setDoc(filme, {
+        titulo: formData.titulo,
+        ano_lancamento: formData.ano_lancamento,
+        diretor: formData.diretor,
+        roteirista: formData.roteirista,
+        distribuidora: formData.distribuidora,
+        elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
+      })
+
+      res.end()
+    } else {
+      res.status(400).json(errors.array())
+    }
+  }
+)
+
+app.post(
+  "/alterar",
+
+  body("titulo").isLength({ min: 1, max: 200 }),
+  body("diretor").isLength({ min: 1, max: 200 }),
+  body("ano_lancamento").isLength({ min: 1, max: 200 }),
+  body("roteirista").isLength({ min: 1, max: 200 }),
+  body("distribuidora").isLength({ min: 1, max: 200 }),
+  body("ator1").isLength({ min: 1, max: 200 }),
+  body("ator2").isLength({ min: 1, max: 200 }),
+  body("ator3").isLength({ min: 1, max: 200 }),
+
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req)
+
+    if (errors.isEmpty()) {
+      const tituloFilme = String(req.query.titulo)
+      const filme = doc(db, "Filmes", tituloFilme)
+
+      let formData = req.body
+
+      await updateDoc(filme, {
+        titulo: formData.titulo,
+        ano_lancamento: formData.ano_lancamento,
+        diretor: formData.diretor,
+        roteirista: formData.roteirista,
+        distribuidora: formData.distribuidora,
+        elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
+      })
+    } else {
+      res.status(400).json(errors.array())
+    }
+  }
+)
 
 app.get("/deletar", async (req: Request, res: Response) => {
   const tituloFilme = String(req.query.titulo)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 type Filme = {
   ano_lancamento: Number
@@ -47,31 +47,48 @@ function ListaFilmes() {
 }
 
 function FilmeComponent(props: Filme) {
+  const navigate = useNavigate()
+  const [existe, setExiste] = useState(true)
+
+  if (existe) {
+    return (
+      <li>
+        <h2>{props.titulo}</h2>
+        <h3>{props.ano_lancamento.toString()}</h3>
+        <p>
+          <strong>Diretor: {props.diretor}</strong>
+        </p>
+        <p>Roteirista: {props.roteirista}</p>
+        <p>Elenco principal:</p>
+        <ul>
+          <li>{props.elenco_principal[0]}</li>
+          <li>{props.elenco_principal[1]}</li>
+          <li>{props.elenco_principal[2]}</li>
+        </ul>
+        <p>Distribuidora: {props.distribuidora}</p>
+        <button
+          onClick={() => {
+            navigate(`/alterar?titulo=${props.titulo}`)
+          }}
+        >
+          Alterar
+        </button>
+        <button
+          onClick={() => {
+            deletarFilme(props.titulo)
+            setExiste(false)
+          }}
+        >
+          Deletar
+        </button>
+      </li>
+    )
+  } 
+  
   return (
-    <li>
-      <h2>{props.titulo}</h2>
-      <h3>{props.ano_lancamento.toString()}</h3>
-      <p>
-        <strong>Diretor: {props.diretor}</strong>
-      </p>
-      <p>Roteirista: {props.roteirista}</p>
-      <p>Elenco principal:</p>
-      <ul>
-        <li>{props.elenco_principal[0]}</li>
-        <li>{props.elenco_principal[1]}</li>
-        <li>{props.elenco_principal[2]}</li>
-      </ul>
-      <p>Distribuidora: {props.distribuidora}</p>
-      <button
-        onClick={() => {
-          deletarFilme(props.titulo)
-          window.location.reload()
-        }}
-      >
-        Deletar
-      </button>
-    </li>
+    <div></div>
   )
+  
 }
 
 function deletarFilme(titulo: String) {

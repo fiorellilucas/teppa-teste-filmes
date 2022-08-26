@@ -10,7 +10,11 @@ import {
   QuerySnapshot,
   setDoc,
   doc,
-  deleteDoc
+  deleteDoc,
+  DocumentReference,
+  getDoc,
+  DocumentData,
+  updateDoc,
 } from "firebase/firestore"
 import "dotenv/config"
 import path from "path"
@@ -33,12 +37,11 @@ const db: Firestore = getFirestore(fb_app)
 const app: Express = express()
 const PORT: Number = 5000
 
-const colRef: CollectionReference = collection(db, "Filmes")
-
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.get("/api", async (req: Request, res: Response) => {
+  const colRef: CollectionReference = collection(db, "Filmes")
   const querySnap: QuerySnapshot = await getDocs(colRef)
 
   let todosFilmes: any = []
@@ -48,6 +51,21 @@ app.get("/api", async (req: Request, res: Response) => {
   })
 
   res.json(todosFilmes)
+})
+
+app.get("/filme", async (req: Request, res: Response) => {
+  const tituloFilme = String(req.query.titulo)
+
+  const docRef: DocumentReference = doc(db, "Filmes", tituloFilme)
+  const docSnap: DocumentSnapshot = await getDoc(docRef)
+
+  let dadosFilme: any = docSnap.data()
+  dadosFilme.ator1 = dadosFilme.elenco_principal[0]
+  dadosFilme.ator2 = dadosFilme.elenco_principal[1]
+  dadosFilme.ator3 = dadosFilme.elenco_principal[2]
+
+  delete dadosFilme.elenco_principal
+  res.json(dadosFilme)
 })
 
 app.post("/adicionar", async (req: Request, res: Response) => {
@@ -65,11 +83,27 @@ app.post("/adicionar", async (req: Request, res: Response) => {
   res.end()
 })
 
+app.post("/alterar", async (req: Request, res: Response) => {
+  const tituloFilme = String(req.query.titulo)
+  const filme = doc(db, "Filmes", tituloFilme)
+
+  let formData = req.body
+
+  await updateDoc(filme, {
+    titulo: formData.titulo,
+    ano_lancamento: formData.ano_lancamento,
+    diretor: formData.diretor,
+    roteirista: formData.roteirista,
+    distribuidora: formData.distribuidora,
+    elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
+  })
+})
+
 app.get("/deletar", async (req: Request, res: Response) => {
   const tituloFilme = String(req.query.titulo)
   const filme = doc(db, "Filmes", tituloFilme)
   await deleteDoc(filme)
-  
+
   res.end()
 })
 

@@ -1,8 +1,16 @@
 import "./adicionar.css"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-export default function FormAdicionar() {
+export default function FormFilme() {
+  //formAdicionar == true é usado para adicionar um filme
+  //formAdicionar == false é usado para alterar um filme
+  const [formAdicionar, setFormAdicionar] = useState(true)
+
+  const [submitButtonText, setSubmitButtonText] = useState(
+    "Adicionar novo filme"
+  )
+
   const [step, setStep] = useState(0)
   const [dadosFilme, setDadosFilme] = useState({
     titulo: "",
@@ -15,25 +23,46 @@ export default function FormAdicionar() {
     ator3: "",
   })
 
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search)
+
+    if (urlSearchParams.has("titulo")) {
+      setFormAdicionar(false)
+      setSubmitButtonText("Alterar filme")
+
+      const params = Object.fromEntries(urlSearchParams.entries())
+      const tituloFilme = params["titulo"]
+
+      fetch(`/filme?titulo=${tituloFilme}`)
+        .then((response) => response.json())
+        .then((filmeJson) => {
+          setDadosFilme(filmeJson)
+        })
+    }
+  }, [])
+
   const listaForms = [
-    <FormFilme
+    <FormDetalhes
       step={step}
       setStep={setStep}
       dadosFilme={dadosFilme}
       setDadosFilme={setDadosFilme}
     />,
     <FormElenco
+      formAdicionar={formAdicionar}
+      setFormAdicionar={setFormAdicionar}
       step={step}
       setStep={setStep}
       dadosFilme={dadosFilme}
       setDadosFilme={setDadosFilme}
+      submitButtonText={submitButtonText}
     />,
   ]
 
   return <div>{listaForms[step]}</div>
 }
 
-function FormFilme(props: any) {
+function FormDetalhes(props: any) {
   return (
     <div>
       <label htmlFor="titulo">Título</label>
@@ -158,21 +187,27 @@ function FormElenco(props: any) {
       <button
         type="submit"
         onClick={() => {
-          enviarDados(props.dadosFilme)
+          enviarDados(props.dadosFilme, props.formAdicionar)
           navigate("/")
         }}
       >
-        Adicionar novo filme
+        {props.submitButtonText}
       </button>
     </div>
   )
 }
 
-function enviarDados(formData: any) {
+function enviarDados(dadosFilme: any, formAdicionar: boolean) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(formData),
+    body: JSON.stringify(dadosFilme),
   }
-  fetch("/adicionar", requestOptions).then((response) => response.json)
+  if (formAdicionar) {
+    fetch("/adicionar", requestOptions).then((response) => response.json)
+  } else {
+    fetch(`/alterar?titulo=${dadosFilme.titulo}`, requestOptions).then(
+      (response) => response.json
+    )
+  }
 }

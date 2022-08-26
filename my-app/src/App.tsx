@@ -13,7 +13,7 @@ type Filme = {
 function App() {
   return (
     <div>
-      <Link to="/adicionar">Adicionar filme</Link>
+      <BotaoAdicionar />
       <ListaFilmes />
     </div>
   )
@@ -89,6 +89,16 @@ function FilmeComponent(props: Filme) {
     <div></div>
   )
   
+}
+
+function BotaoAdicionar () {
+  const navigate = useNavigate()
+
+  return (
+    <button onClick={() => {
+      navigate("/adicionar")
+    }}>Adicionar filme</button>
+  )
 }
 
 function deletarFilme(titulo: String) {

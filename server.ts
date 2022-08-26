@@ -9,10 +9,11 @@ import {
   CollectionReference,
   QuerySnapshot,
   setDoc,
-  doc
+  doc,
 } from "firebase/firestore"
 import "dotenv/config"
 import path from "path"
+import { body, validationResult } from "express-validator"
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -32,21 +33,9 @@ const PORT: Number = 5000
 
 const colRef: CollectionReference = collection(db, "Filmes")
 
-app.get("/api", async (req: Request, res: Response) => {
-  
-  // await setDoc(doc(db, "Filmes", "Interstellar"), {
-  //   titulo: "Interstellar",
-  //   ano_lancamento: 2014,
-  //   diretor: "Christopher Nolan",
-  //   roteirista: "Jonathan Nolan",
-  //   distribuidora: "Warner Bros. Pictures",
-  //   elenco_principal: [
-  //     "Matthew McConaughey",
-  //     "Anne Hathaway",
-  //     "Jessica Chastain"
-  //   ]
-  // })
+app.use(express.urlencoded({ extended: true }))
 
+app.get("/api", async (req: Request, res: Response) => {
   const querySnap: QuerySnapshot = await getDocs(colRef)
 
   let todosFilmes: any = []
@@ -54,8 +43,22 @@ app.get("/api", async (req: Request, res: Response) => {
   querySnap.forEach((doc: DocumentSnapshot) => {
     todosFilmes.push(doc.data())
   })
-  
+
   res.json(todosFilmes)
+})
+
+app.post("/adicionar", async (req: Request, res: Response) => {
+  let formData = req.body
+
+  await setDoc(doc(db, "Filmes", formData.titulo), {
+    titulo: formData.titulo,
+    ano_lancamento: formData.ano_lancamento,
+    diretor: formData.diretor,
+    roteirista: formData.roteirista,
+    distribuidora: formData.distribuidora,
+    elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
+  })
+  res.end("doidera")
 })
 
 app.listen(PORT, () => {

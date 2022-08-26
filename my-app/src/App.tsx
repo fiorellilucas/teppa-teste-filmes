@@ -1,5 +1,5 @@
-import React, { ReactComponentElement, useEffect, useState } from "react"
-import "./App.css"
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 type Filme = {
   ano_lancamento: Number
@@ -13,6 +13,7 @@ type Filme = {
 function App() {
   return (
     <div>
+      <Link to="/adicionar">Adicionar filme</Link>
       <ListaFilmes />
     </div>
   )

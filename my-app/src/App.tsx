@@ -51,7 +51,9 @@ function FilmeComponent(props: Filme) {
     <li>
       <h2>{props.titulo}</h2>
       <h3>{props.ano_lancamento.toString()}</h3>
-      <p><strong>Diretor: {props.diretor}</strong></p>
+      <p>
+        <strong>Diretor: {props.diretor}</strong>
+      </p>
       <p>Roteirista: {props.roteirista}</p>
       <p>Elenco principal:</p>
       <ul>
@@ -60,8 +62,20 @@ function FilmeComponent(props: Filme) {
         <li>{props.elenco_principal[2]}</li>
       </ul>
       <p>Distribuidora: {props.distribuidora}</p>
+      <button
+        onClick={() => {
+          deletarFilme(props.titulo)
+          window.location.reload()
+        }}
+      >
+        Deletar
+      </button>
     </li>
   )
+}
+
+function deletarFilme(titulo: String) {
+  fetch(`/deletar?titulo=${titulo}`).then((r) => r.json())
 }
 
 export default App

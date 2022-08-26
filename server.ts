@@ -10,6 +10,7 @@ import {
   QuerySnapshot,
   setDoc,
   doc,
+  deleteDoc
 } from "firebase/firestore"
 import "dotenv/config"
 import path from "path"
@@ -61,6 +62,14 @@ app.post("/adicionar", async (req: Request, res: Response) => {
     elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
   })
 
+  res.end()
+})
+
+app.get("/deletar", async (req: Request, res: Response) => {
+  const tituloFilme = String(req.query.titulo)
+  const filme = doc(db, "Filmes", tituloFilme)
+  await deleteDoc(filme)
+  
   res.end()
 })
 

@@ -14,6 +14,7 @@ import {
 import "dotenv/config"
 import path from "path"
 import { body, validationResult } from "express-validator"
+import bodyParser, { BodyParser } from "body-parser"
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -34,6 +35,7 @@ const PORT: Number = 5000
 const colRef: CollectionReference = collection(db, "Filmes")
 
 app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.get("/api", async (req: Request, res: Response) => {
   const querySnap: QuerySnapshot = await getDocs(colRef)
@@ -58,7 +60,8 @@ app.post("/adicionar", async (req: Request, res: Response) => {
     distribuidora: formData.distribuidora,
     elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
   })
-  res.end("doidera")
+
+  res.end()
 })
 
 app.listen(PORT, () => {

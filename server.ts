@@ -17,6 +17,7 @@ import {
 } from "firebase/firestore"
 import { body, validationResult } from "express-validator"
 import bodyParser, { BodyParser } from "body-parser"
+import path from "path"
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -36,6 +37,13 @@ const PORT = process.env.PORT || 5000
 
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("build"))
+  app.get("*", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html")) 
+  })
+}
 
 app.get("/api", async (req: Request, res: Response) => {
   const colRef: CollectionReference = collection(db, "Filmes")

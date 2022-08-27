@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "dev": "nodemon -r dotenv/config server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile-server": "npx tsc",
-    "postinstall": "npm run compile-server"
+    "compile-react": "cd my-app && npm i && npm run build",
+    "postinstall": "npm run compile-server && npm run compile-react"
   },
   "keywords": [],
   "author": "",

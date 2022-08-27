@@ -15,7 +15,6 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore"
-import "dotenv/config"
 import { body, validationResult } from "express-validator"
 import bodyParser, { BodyParser } from "body-parser"
 

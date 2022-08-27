@@ -17,6 +17,6 @@ A aplicação simula um **CRUD**, no qual o usuário pode cadastrar ou deletar f
 ### Desafios
 
 - [x] Validação de campos no Frontend e Backend
-- [ ] Fazer deploy
+- [x] Fazer deploy
 - [ ] Utilizar Rules do Firestore
 - [ ] Registro e Login

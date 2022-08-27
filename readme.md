@@ -8,7 +8,7 @@ A aplicação simula um **CRUD**, no qual o usuário pode cadastrar ou deletar f
 
 ### Requisitos 
 
-- [x] **TypeScript** Frontend e Backend 
+- [x] **TypeScript** no Frontend e Backend 
 - [x] **React** no Frontend
 - [x] **Node.js + Express** no Backend
 - [x] **Firestore** como banco de dados

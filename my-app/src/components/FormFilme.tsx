@@ -13,16 +13,7 @@ export default function FormFilme() {
   )
 
   const [step, setStep] = useState(0)
-  const [dadosFilme, setDadosFilme] = useState({
-    titulo: "",
-    ano_lancamento: "",
-    diretor: "",
-    roteirista: "",
-    distribuidora: "",
-    ator1: "",
-    ator2: "",
-    ator3: "",
-  })
+  const [dadosFilme, setDadosFilme] = useState({})
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search)
@@ -44,6 +35,8 @@ export default function FormFilme() {
 
   const listaForms = [
     <FormDetalhes
+      formAdicionar={formAdicionar}
+      setFormAdicionar={setFormAdicionar}
       step={step}
       setStep={setStep}
       dadosFilme={dadosFilme}

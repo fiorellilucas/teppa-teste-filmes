@@ -82,7 +82,7 @@ app.post(
     const errors = validationResult(req)
 
     if (errors.isEmpty()) {
-      const tituloFilme = String(req.query.titulo)
+      const tituloFilme = req.body.titulo
       const filme = doc(db, "Filmes", tituloFilme)
 
       let formData = req.body
@@ -119,7 +119,7 @@ app.post(
     const errors = validationResult(req)
 
     if (errors.isEmpty()) {
-      const tituloFilme = String(req.query.titulo)
+      const tituloFilme = req.body.titulo
       const filme = doc(db, "Filmes", tituloFilme)
 
       let formData = req.body

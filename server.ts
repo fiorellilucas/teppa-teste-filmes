@@ -139,6 +139,8 @@ app.post(
         distribuidora: formData.distribuidora,
         elenco_principal: [formData.ator1, formData.ator2, formData.ator3],
       })
+
+      res.end()
     } else {
       res.status(400).json(errors.array())
     }

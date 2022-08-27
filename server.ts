@@ -32,7 +32,7 @@ const fb_app: FirebaseApp = initializeApp(firebaseConfig)
 const db: Firestore = getFirestore(fb_app)
 
 const app: Express = express()
-const PORT: Number = 5000
+const PORT = process.env.PORT || 5000
 
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())

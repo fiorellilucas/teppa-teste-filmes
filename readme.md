@@ -2,6 +2,8 @@
 
 ## Teppa - Teste Fullstack
 
+[Link da aplicação](https://teste-teppa-filmes.herokuapp.com/)
+
 Aplicação fullstack simples, feita como teste para a empresa **Teppa**.
 
 A aplicação simula um **CRUD**, no qual o usuário pode cadastrar ou deletar filmes, e alterar detalhes desses filmes, como o diretor, elenco principal, etc.
@@ -17,6 +19,6 @@ A aplicação simula um **CRUD**, no qual o usuário pode cadastrar ou deletar f
 ### Desafios
 
 - [x] Validação de campos no Frontend e Backend
-- [x] Fazer deploy
+- [x] Fazer deploy no Heroku
 - [ ] Utilizar Rules do Firestore
 - [ ] Registro e Login

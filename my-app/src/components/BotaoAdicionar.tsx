@@ -1,15 +1,18 @@
 import { useNavigate } from "react-router-dom"
+import { Button } from "antd"
 
 export default function BotaoAdicionar() {
   const navigate = useNavigate()
 
   return (
-    <button
+    <Button
+      type="primary"
       onClick={() => {
         navigate("/adicionar")
       }}
+      style={{margin: "2vh"}}
     >
       Adicionar filme
-    </button>
+    </Button>
   )
 }

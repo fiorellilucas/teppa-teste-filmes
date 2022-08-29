@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import FilmeComponent from "./FilmeComponent"
+import { Row, Col } from "antd"
 
 type Filme = {
   ano_lancamento: Number
@@ -23,16 +24,22 @@ export default function ListaFilmes() {
 
   const todosFilmes = colecaoFilmes.map((filme) => {
     return (
-      <FilmeComponent
-        titulo={filme.titulo}
-        ano_lancamento={filme.ano_lancamento}
-        diretor={filme.diretor}
-        distribuidora={filme.distribuidora}
-        elenco_principal={filme.elenco_principal}
-        roteirista={filme.roteirista}
-      />
+      <Col span={8}>
+        <FilmeComponent
+          titulo={filme.titulo}
+          ano_lancamento={filme.ano_lancamento}
+          diretor={filme.diretor}
+          distribuidora={filme.distribuidora}
+          elenco_principal={filme.elenco_principal}
+          roteirista={filme.roteirista}
+        />
+      </Col>
     )
   })
 
-  return <ul>{todosFilmes}</ul>
+  return (
+    <Row justify="center" gutter={[24, 24]}>
+      {todosFilmes}
+    </Row>
+  )
 }

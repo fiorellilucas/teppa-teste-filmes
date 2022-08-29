@@ -3,6 +3,7 @@ import "./style/index.css"
 import App from "./App"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import FormFilme from "./components/FormFilme"
+import "antd/dist/antd.min.css"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(

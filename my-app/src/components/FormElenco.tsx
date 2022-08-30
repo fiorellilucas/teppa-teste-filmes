@@ -55,7 +55,13 @@ export default function FormElenco(props: any) {
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Space size={32}>
-          <Button>Anterior</Button>
+          <Button
+            onClick={() => {
+              props.setStep(props.step - 1)
+            }}
+          >
+            Anterior
+          </Button>
           <Button htmlType="submit" type="primary">
             {props.submitButtonText}
           </Button>

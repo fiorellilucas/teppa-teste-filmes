@@ -4,7 +4,7 @@ import { Row, Col } from "antd"
 
 function App() {
   return (
-    <div style={{ margin: "2vh", padding: "0 5vh" }}>
+    <div>
       <Row justify="center">
         <Col>
           <BotaoAdicionar />

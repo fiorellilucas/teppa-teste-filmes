@@ -10,7 +10,7 @@ export default function BotaoAdicionar() {
       onClick={() => {
         navigate("/adicionar")
       }}
-      style={{margin: "2vh"}}
+      style={{marginBottom: "2vh"}}
     >
       Adicionar filme
     </Button>

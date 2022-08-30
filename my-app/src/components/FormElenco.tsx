@@ -1,86 +1,67 @@
-import { useFormik } from "formik"
+import { Button, Form, Input, Space } from "antd"
 import { useEffect } from "react"
-import * as Yup from "yup"
 
 export default function FormElenco(props: any) {
   const CAMPO_OBRIGATORIO = "Não este campo em branco deixe em branco"
 
-  const formik = useFormik({
-    initialValues: {
-      ator1: "",
-      ator2: "",
-      ator3: "",
-    },
-    validationSchema: Yup.object({
-      ator1: Yup.string().required(CAMPO_OBRIGATORIO),
-      ator2: Yup.string().required(CAMPO_OBRIGATORIO),
-      ator3: Yup.string().required(CAMPO_OBRIGATORIO),
-    }),
-    onSubmit: () => {
-      enviarDados(props.dadosFilme, props.formAdicionar)
-      window.location.href = "/"
-    },
-  })
+  const [form] = Form.useForm()
 
   useEffect(() => {
-    if (
-      props.dadosFilme.hasOwnProperty("ator1") &&
-      props.dadosFilme.hasOwnProperty("ator2") &&
-      props.dadosFilme.hasOwnProperty("ator3")
-    ) {
-      formik.setFieldValue("ator1", props.dadosFilme.ator1)
-      formik.setFieldValue("ator2", props.dadosFilme.ator2)
-      formik.setFieldValue("ator3", props.dadosFilme.ator3)
-    }
-  }, [props.dadosFilme])
-  // colocar formik no array de dependências causa loop de render infinito
+    form.setFieldsValue(props.dadosFilme)
+  }, [props.dadosFilme, form])
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="elenco_principal">Elenco principal (3 atores)</label>
-      <input
-        type="text"
-        id="ator1"
+    <Form
+      form={form}
+      onFinish={() => {
+        enviarDados(props.dadosFilme, props.formAdicionar)
+        window.location.href = "/"
+      }}
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 8 }}
+    >
+      <Form.Item
+        label="Ator 1"
         name="ator1"
-        value={formik.values.ator1}
-        onChange={(e) => {
-          props.setDadosFilme({ ...props.dadosFilme, ator1: e.target.value })
-          formik.handleChange(e)
-        }}
-      />
-      {formik.touched.ator1 && formik.errors.ator1 ? (
-        <div>{formik.errors.ator1}</div>
-      ) : null}
-      <input
-        type="text"
-        id="ator2"
+        rules={[{ required: true, message: CAMPO_OBRIGATORIO }]}
+      >
+        <Input
+          onChange={(e) => {
+            props.setDadosFilme({ ...props.dadosFilme, ator1: e.target.value })
+          }}
+        />
+      </Form.Item>
+      <Form.Item
+        label="Ator 2"
         name="ator2"
-        value={formik.values.ator2}
-        onChange={(e) => {
-          props.setDadosFilme({ ...props.dadosFilme, ator2: e.target.value })
-          formik.handleChange(e)
-        }}
-      />
-      {formik.touched.ator2 && formik.errors.ator2 ? (
-        <div>{formik.errors.ator2}</div>
-      ) : null}
-      <input
-        type="text"
-        id="ator3"
+        rules={[{ required: true, message: CAMPO_OBRIGATORIO }]}
+      >
+        <Input
+          onChange={(e) => {
+            props.setDadosFilme({ ...props.dadosFilme, ator2: e.target.value })
+          }}
+        />
+      </Form.Item>
+      <Form.Item
+        label="Ator 3"
         name="ator3"
-        value={formik.values.ator3}
-        onChange={(e) => {
-          props.setDadosFilme({ ...props.dadosFilme, ator3: e.target.value })
-          formik.handleChange(e)
-        }}
-      />
-      {formik.touched.ator3 && formik.errors.ator3 ? (
-        <div>{formik.errors.ator3}</div>
-      ) : null}
-
-      <button onClick={() => props.setStep(props.step - 1)}>Anterior</button>
-      <button type="submit">{props.submitButtonText}</button>
-    </form>
+        rules={[{ required: true, message: CAMPO_OBRIGATORIO }]}
+      >
+        <Input
+          onChange={(e) => {
+            props.setDadosFilme({ ...props.dadosFilme, ator3: e.target.value })
+          }}
+        />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Space size={32}>
+          <Button>Anterior</Button>
+          <Button htmlType="submit" type="primary">
+            {props.submitButtonText}
+          </Button>
+        </Space>
+      </Form.Item>
+    </Form>
   )
 }
 

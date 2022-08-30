@@ -1,4 +1,3 @@
-import "../style/adicionar.css"
 import { useEffect, useState } from "react"
 import FormDetalhes from "./FormDetalhes"
 import FormElenco from "./FormElenco"
@@ -13,7 +12,16 @@ export default function FormFilme() {
   )
 
   const [step, setStep] = useState(0)
-  const [dadosFilme, setDadosFilme] = useState({})
+  const [dadosFilme, setDadosFilme] = useState({
+    titulo: "",
+    ano_lancamento: "",
+    diretor: "",
+    roteirista: "",
+    distribuidora: "",
+    ator1: "",
+    ator2: "",
+    ator3: "",
+  })
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search)
@@ -35,8 +43,6 @@ export default function FormFilme() {
 
   const listaForms = [
     <FormDetalhes
-      formAdicionar={formAdicionar}
-      setFormAdicionar={setFormAdicionar}
       step={step}
       setStep={setStep}
       dadosFilme={dadosFilme}
